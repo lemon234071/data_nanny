@@ -7,9 +7,10 @@ import collections
 
 
 def count_dialog(rootdirpath, file_name):
-    # type di
+    # type dialog
     types = os.listdir(rootdirpath)
     cnt_typs = collections.defaultdict(int)
+    failed_file = []
     for data_type in types:
         filedirs = [os.path.join(rootdirpath, data_type)]
         while not [x for x in os.listdir(filedirs[0]) if file_name in x]:
@@ -21,21 +22,31 @@ def count_dialog(rootdirpath, file_name):
             try:
                 if os.path.exists(path):
                     with open(path) as f:
-                        data = [json.loads(x) for x in f.readlines()]
+                        for x in f.readlines():
+                            if x.strip():
+                                try:
+                                    line = json.loads(x)
+                                    cnt_typs[data_type] += 1
+                                except:
+                                    cnt_typs[data_type + "_failed_line"] += 1
                 elif os.path.exists(path + ".gz"):
                     with gzip.open(path + ".gz", "rb") as f:
-                        data = [json.loads(x) for x in f.readlines()]
+                        for x in f.readlines():
+                            if x.strip():
+                                try:
+                                    line = json.loads(x)
+                                    cnt_typs[data_type] += 1
+                                except:
+                                    cnt_typs[data_type + "_failed_line"] += 1
                 else:
-                    cnt_typs["failed"] += 1
+                    cnt_typs["wrong_file_type"] += 1
                     print("wrong data type", thisdir)
                     continue
             except:
-                cnt_typs["failed"] += 1
-                print("failed", thisdir)
+                failed_file.append(thisdir)
                 continue
-            # print(data[0])
-            cnt_typs[data_type] += len(data)
         print(cnt_typs)
+        print("failed_file:", failed_file)
         print("statistic over", file_name)
 
 
