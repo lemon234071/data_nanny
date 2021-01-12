@@ -4,15 +4,22 @@ import gzip
 import tqdm
 
 
-def sta_zhihu(dirpath):
-    subdirs = [os.path.join(dirpath, x) for x in os.listdir(dirpath) if os.path.isdir(os.path.join(dirpath, x))]
+def sta_zhihu(rootdirpath):
+    # type dir: qa, comment, anwser
+    subdirs = [os.path.join(rootdirpath, x) for x in os.listdir(rootdirpath) if
+               os.path.isdir(os.path.join(rootdirpath, x))]
 
+    # id dir: 7762
     subsubdirs = [os.path.join(subdir, x) for subdir in subdirs for x in os.listdir(subdir) if
                   os.path.isdir(os.path.join(subdir, x))]
+
+    # date dir: 20181101
+    subsubsubdirs = [os.path.join(subsubdir, x) for subsubdir in subsubdirs for x in os.listdir(subsubdir) if
+                     os.path.isdir(os.path.join(subsubdir, x))]
     cnt_fail = 0
     cnt_dialog = 0
-    for subsubdir in tqdm.tqdm(subsubdirs):
-        path = os.path.join(subsubdir, "zhihu")
+    for thisdir in tqdm.tqdm(subsubsubdirs):
+        path = os.path.join(thisdir, "zhihu")
         if os.path.exists(path):
             with open(path, encoding="utf-8") as f:
                 data = [json.loads(x) for x in f.readlines()]
@@ -21,9 +28,10 @@ def sta_zhihu(dirpath):
                 data = [json.loads(x) for x in f.readlines()]
         else:
             cnt_fail += 1
-            print(subsubdir)
+            print(thisdir)
+            continue
         print(data[0])
-        print(subsubdir)
+        print(thisdir)
         cnt_dialog += len(data)
     print(cnt_fail, "failed")
     print("dialog:", cnt_dialog)
