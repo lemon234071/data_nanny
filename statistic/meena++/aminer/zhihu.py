@@ -20,18 +20,22 @@ def sta_zhihu(rootdirpath):
     cnt_qa, cnt_ans, cnt_comment = 0, 0, 0
     for thisdir in tqdm.tqdm(subsubsubdirs):
         path = os.path.join(thisdir, "zhihu")
-        if os.path.exists(path):
-            with open(path, encoding="utf-8") as f:
-                data = [json.loads(x) for x in f.readlines()]
-        elif os.path.exists(path + ".gz"):
-            with gzip.open(path + ".gz", "rb", encoding="utf-8") as f:
-                data = [json.loads(x) for x in f.readlines()]
-        else:
+        try:
+            if os.path.exists(path):
+                with open(path) as f:
+                    data = [json.loads(x) for x in f.readlines()]
+            elif os.path.exists(path + ".gz"):
+                with gzip.open(path + ".gz", "rb") as f:
+                    data = [json.loads(x) for x in f.readlines()]
+            else:
+                cnt_fail += 1
+                print("wrong data type", thisdir)
+                continue
+        except:
             cnt_fail += 1
-            print(thisdir)
+            print("failed", thisdir)
             continue
         # print(data[0])
-        print(thisdir)
         if "qa" in thisdir:
             cnt_qa += len(data)
         elif "answer" in thisdir:
