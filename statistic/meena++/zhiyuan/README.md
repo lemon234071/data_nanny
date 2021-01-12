@@ -1,9 +1,17 @@
-| 数据集 | 大小 | sessions | sents | avg sent len | max sent len | min sent len | avg turn | max turn | min turn |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `好大夫中文医疗问答数据` | 2.51GB | 1037649 | 4592529 | 4.425898 | 507 | 2 | 1.89 | 253 | 1 |
+| 数据集 | 大小 | sessions | sents | avg turn | max turn | min turn |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `好大夫中文医疗问答数据` | 2.51GB | 1040709 | 6645229 | 1.89 | 253 | 1 |
+| `京东客服对话数据` | 2.29GB | 1023843 | 20450436 | 6.36 | 37 | 1 |
 
-# run
+# info
 1. 好大夫中文医疗问答数据
+    * `/home/data/tripartite/zhiyuan/强语义数据/中文医疗问答数据-好大夫/中文医疗问答数据-好大夫`
 ```bash
 python mds.py /home/data/tripartite/zhiyuan/强语义数据/中文医疗问答数据-好大夫/中文医疗问答数据-好大夫
+```
+
+2. 京东客服对话数据
+    * `/home/data/tripartite/zhiyuan/强语义数据/京东对话2019数据集`
+```bash
+python jdqa.py /home/data/tripartite/zhiyuan/强语义数据/京东对话2019数据集/JDDC_Dataset_LREC.txt
 ```

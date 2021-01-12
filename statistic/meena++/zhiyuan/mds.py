@@ -2,7 +2,6 @@
 好大夫中文医疗问答数据
 """
 
-import re
 import numpy as np
 from utils import *
 
@@ -50,9 +49,9 @@ def turn_to_dialogue(dialogue_text: str):
             new_role = line[:2]
             if not new_role == role:
                 role = new_role
-                dialogue.append({'role': role, 'utt': ''})
+                dialogue.append({'role': role, 'utt': []})
         elif role:
-            dialogue[-1]['utt'] += line
+            dialogue[-1]['utt'].append(line)
 
     return [turn for turn in dialogue if turn['utt']]
 
@@ -61,9 +60,9 @@ def iter_session(file_path: str):
     """
     :return:
         [
-            {'role': '医生' or '病人', 'utt': 'xxxxxx'},
-            {'role': '医生' or '病人', 'utt': 'xxxxxx'},
-            {'role': '医生' or '病人', 'utt': 'xxxxxx'}
+            {'role': '医生' or '病人', 'utt': ['t1', 't2']},
+            {'role': '医生' or '病人', 'utt': ['t1']},
+            {'role': '医生' or '病人', 'utt': ['t1', 't2', 't3']}
         ]
     """
     for session_org_text in iter_session_org_text(file_path):
@@ -75,21 +74,18 @@ def iter_session(file_path: str):
 
 def count(dst_dir: str):
     num_session = 0
-    num_sents = []
+    num_sents = 0
     num_turns = []
     for file_path, file_name in find_cur_file_paths(dst_dir):
         if '.txt' in file_name:
             print('File: ' + file_name)
             for session_dialogue in iter_session(file_path):
                 num_session += 1
-                num_sents.append(len(session_dialogue))
+                num_sents += sum([len(t['utt']) for t in session_dialogue])
                 num_turns.append(len(session_dialogue) // 2)
                 # print(session_dialogue)
     print('sessions: %d' % num_session)
-    print('sents: %d' % len(num_sents))
-    print('avg sent len: %f' % np.mean(num_sents))
-    print('max sent len: %d' % max(num_sents))
-    print('min sent len: %d' % min(num_sents))
+    print('sents: %d' % num_sents)
     print('avg turn: %f' % np.mean(num_turns))
     print('max turn: %d' % max(num_turns))
     print('min turn: %d' % min(num_turns))
@@ -103,12 +99,9 @@ if __name__ == '__main__':
         dst_dir = sys.argv[1]
     count(dst_dir)
     '''
-    sessions: 1037649
-    sents: 1037649
-    avg sent len: 4.425898
-    max sent len: 507
-    min sent len: 2
-    avg turn: 1.893625
+    sessions: 1040709
+    sents: 6645229
+    avg turn: 1.892855
     max turn: 253
     min turn: 1
     '''
