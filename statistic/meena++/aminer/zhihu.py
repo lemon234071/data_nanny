@@ -4,7 +4,7 @@ import gzip
 import tqdm
 
 
-def sta_zhihu(rootdirpath):
+def count_dialog(rootdirpath):
     # type dir: qa, comment, anwser
     subdirs = [os.path.join(rootdirpath, x) for x in os.listdir(rootdirpath) if
                os.path.isdir(os.path.join(rootdirpath, x))]
@@ -52,4 +52,4 @@ def sta_zhihu(rootdirpath):
 
 
 if __name__ == '__main__':
-    sta_zhihu("/home/data/tripartite/aminer/yyq_scp/zhihu/")
+    count_dialog("/home/data/tripartite/aminer/yyq_scp/zhihu/")
