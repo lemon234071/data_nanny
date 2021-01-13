@@ -1,5 +1,6 @@
 """
 京东客服对话数据
+`/home/data/tripartite/zhiyuan/强语义数据/京东对话2020`
 """
 
 import re

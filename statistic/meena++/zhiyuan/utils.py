@@ -1,5 +1,6 @@
 import os
 import json
+import pandas as pd
 
 
 def define_dir(*args):
@@ -82,3 +83,9 @@ def load_json_file_by_line(file_path):
 
 def save_json_file_by_line(file_path, data: list):
     save_text_file_by_line(file_path, [json.dumps(x, ensure_ascii=False) for x in data])
+
+
+def load_pandas_file(file_path, encoding='GB18030'):
+    with open(file_path, encoding=encoding, errors='replace') as f:
+        df = pd.read_csv(f)
+    return df

@@ -1,5 +1,6 @@
 """
 好大夫中文医疗问答数据
+`/home/data/tripartite/zhiyuan/强语义数据/中文医疗问答数据-好大夫/中文医疗问答数据-好大夫`
 """
 
 import numpy as np
