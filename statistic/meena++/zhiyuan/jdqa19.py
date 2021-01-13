@@ -1,5 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+"""
+京东客服对话数据
+"""
+
 import re
 import numpy as np
 from tqdm import tqdm
@@ -20,7 +22,7 @@ def iter_session(file_path: str):
     cur_session_id = ''
     cur_role = ''
     dialogue = []
-    for line in tqdm(load_text_file_by_line(file_path)[1:], desc='load chunk file'):
+    for line in tqdm(load_text_file_by_line(file_path)[1:], desc='process..'):
         obj = pattern.search(line)
         if obj is not None:
             session_id = obj.group(1)
