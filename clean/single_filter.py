@@ -144,6 +144,7 @@ def utterance_clean(opt, utterance, blacklist, dirty_data, time_dict, cut, retur
     orig_utter = utterance
     utterance = utterance.strip()
 
+    utterance = utterance.replace("alink", "")
     # TODO check
     utterance = utterance.replace("{\\1c&H4080FF&}", "")
     if not utterance:

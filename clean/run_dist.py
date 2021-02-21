@@ -11,11 +11,14 @@ logger = logging.getLogger(__file__)
 
 def dataloader(dir_path, batch_size):
     """Load jsonl data, each line should be a list of dialog: ["你好", "你也好", "哈哈"]"""
-    jsonl_path_list = [dir_path + name for name in os.listdir(dir_path)]
-    for path in jsonl_path_list:
+    subdirs = [(subdir, os.path.join(dir_path, subdir)) for subdir in os.listdir(dir_path)]
+    jsonl_path_list = [(file, subdir_name, os.path.join(subdir, file))
+                       for subdir_name, subdir in subdirs
+                       for file in os.listdir(subdir)]
+    for file, subdir_name, path in jsonl_path_list:
         dataset = load_jsonl(path)
         for i in range(0, len(dataset), batch_size):
-            fid = path[path.rindex("/") + 1:path.rindex(".")] + "_trunc" + str(i)
+            fid = subdir_name + "_" + file.replace(".jsonl", "") + "_trunc" + str(i)
             yield fid, dataset[i: i + batch_size]
 
 
@@ -54,9 +57,9 @@ def main():
 
     # single process debug
     # file_id, data = next(simple_loader)
-    file_id, data = next(simple_loader)
-    main_filter(args, file_id, data, blacklists, after_dist_dir)
-    exit()
+    # file_id, data = next(simple_loader)
+    # main_filter(args, file_id, data, blacklists, after_dist_dir)
+    # exit()
 
     # multi processing
     logger.info("Cleaning start!")
