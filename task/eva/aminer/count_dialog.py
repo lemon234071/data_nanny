@@ -47,7 +47,9 @@ def count_dialog(rootdirpath, file_name):
                 continue
         print(cnt_typs)
         print("failed_file:", failed_file)
-        print("statistic over", file_name)
+    print("statistic over", file_name)
+
+
 
 
 if __name__ == '__main__':
