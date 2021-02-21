@@ -38,13 +38,13 @@ NOTE THAT: 改动某规则的时候注意是否影响到其他规则
         --split_multi_repost  # 将如下单句子拆成多个回复，与context一起构成多个对话："一起来吗？@Cindy //@Bob: 算我一个//@Amy:今晚开派对吗？"
         --de_ad  # 去除可能是广告的对话（同样的回复对应多个context， 借鉴 https://www.aclweb.org/anthology/D13-1096.pdf）
         --de_generic_dialog  # 去除通用回复，借鉴 https://arxiv.org/abs/1911.00536
-        --no_reply_tag  # 去除 “回复 @Devid: 我会准时到的” 中的 ”回复 @Devid:“
-        --no_hashtag  # 去除 ”# 感恩节# 感谢给予自己生命，养育我们长大的父母“ 中的 ”# 感恩节#“
-        --no_emotion # 去除 ”: xxx: 感谢给予自己生命“ 中的 ": xxx:"
-        --no_mention  # 去除 ”一起来吗？@Cindy //@Bob: 算我一个//@Amy: 今晚开派对吗？“ 中的 ”@Cindy“， ”@Bob:“， ”@Amy:“
-        --no_repost  # 去除”一起来吗？@Cindy //@Bob: 算我一个//@Amy: 今晚开派对吗？“ 中的 ”//@Bob: 算我一个//@Amy: 今晚开派对吗？“
+        --no_reply_tag  # 去除 "回复 @Devid: 我会准时到的" 中的 "回复 @Devid:"
+        --no_hashtag  # 去除 "# 感恩节# 感谢给予自己生命，养育我们长大的父母" 中的 "# 感恩节#"
+        --no_emotion # 去除 ": xxx: 感谢给予自己生命" 中的 ": xxx:"
+        --no_mention  # 去除 "一起来吗？@Cindy //@Bob: 算我一个//@Amy: 今晚开派对吗？" 中的 "@Cindy"， "@Bob:"， "@Amy:"
+        --no_repost  # 去除"一起来吗？@Cindy //@Bob: 算我一个//@Amy: 今晚开派对吗？" 中的 "//@Bob: 算我一个//@Amy: 今晚开派对吗？"
         --no_brackets  # 去除中括号中的内容
-        --no_duplicated  # 降重 “老师，您好您好您好您好您好您好” 为 ”老师， 您好您好您好“
+        --no_duplicated  # 降重 "老师，您好您好您好您好您好您好" 为 "老师， 您好您好您好"
         --no_emoji  # 去除emoji表情
         --no_short  # 去除过短的句子
         --no_long   # 去除过长的句子
