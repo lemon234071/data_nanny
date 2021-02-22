@@ -13,7 +13,7 @@ from rules import str_level, session_level, data_level
 
 logger = logging.getLogger(__file__)
 
-MAX_LEN_STR_BLACKWORD=110
+MAX_LEN_STR_BLACKWORD = 110
 
 
 def main_filter(opt, file_id, data, blacklist, out_dir, cut=True):
@@ -48,32 +48,25 @@ def main_filter(opt, file_id, data, blacklist, out_dir, cut=True):
                 dirty_data["duplicated"]["utterance_level"].add(dialog[0])
                 continue
 
-        start_idx = 0
+        new_dialog = []
         for i in range(len(dialog)):
-            # output utterance will not contain " "
             if opt.split_multi_repost:
                 utters = str_level.split_multi_repost(dialog[i])
-                for j in range(1, len(utters)):
-                    utter = utterance_clean(opt, utters[j], blacklist, dirty_data, time_dict, cut)
-                    if utter and dialog[start_idx:i]:
-                        temp_dialog = dialog[start_idx:i] + [utter]
-                        if opt.no_name:
-                            temp_dialog = session_level.de_name(temp_dialog, blacklist["name"])
-                        res.append(temp_dialog)
             else:
                 utters = [dialog[i]]
 
-            dialog[i] = utterance_clean(opt, utters[0], blacklist, dirty_data, time_dict, cut)
-            if not dialog[i] and len(dialog[start_idx: i]) > 1:
-                if opt.no_name:
-                    dialog[start_idx:i] = session_level.de_name(dialog[start_idx:i], blacklist["name"])
-                res.append(dialog[start_idx:i])
-                start_idx = i + 1
+            for utter in utters:
+                utter = utterance_clean(opt, utter, blacklist, dirty_data, time_dict, cut)
+                new_dialog.append(utter)
 
-        if (len(dialog[start_idx:])) > 1:
-            if opt.no_name:
-                dialog[start_idx:] = session_level.de_name(dialog[start_idx:], blacklist["name"])
-            res.append(dialog[start_idx:])
+        if opt.no_name:
+            new_dialog = session_level.de_name(new_dialog, blacklist["name"])
+
+        start_idx = 0
+        for i in range(1, len(new_dialog) + 1):
+            if (i == len(new_dialog) or not new_dialog[i]) and len(new_dialog[start_idx: i]) > 1:
+                res.append(new_dialog[start_idx: i])
+                start_idx = i + 1
 
     del data
     gc.collect()
