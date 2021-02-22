@@ -138,7 +138,7 @@ def bert_clean(text):
 
 def split_multi_repost(utter):
     # 一起来吗？@Cindy //@Bob: 算我一个//@Amy: 今晚开派对吗？
-    if utter.count("//") != 0 and utter.count("//") <= utter.count("@"):
+    if utter.count("//@") > 0:
         return [x.strip() for x in utter.split("//") if len(x.strip()) > 0]
     return [utter]
 

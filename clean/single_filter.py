@@ -133,7 +133,7 @@ def add_filter_args(argparser):
     opt.add_argument('--yda_dedupl', action="store_true")
 
 
-def utterance_clean(opt, utterance, blacklist, dirty_data, time_dict, cut, return_segmented=True):
+def utterance_clean(opt, utterance, blacklist, dirty_data, time_dict, cut, return_segmented=True) -> str:
     orig_utter = utterance
     utterance = utterance.strip()
 
