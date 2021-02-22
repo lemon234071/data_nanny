@@ -149,6 +149,19 @@ def utterance_clean(opt, utterance, blacklist, dirty_data, time_dict, cut, retur
         if not utterance:
             dirty_data["other"]["¡ 评论"].add(orig_utter)
 
+    if utterance and opt.no_special_topic:
+        special_topic_word = str_level.de_str_blacklist(utterance, blacklist["special_topic"])
+        if special_topic_word:
+            dirty_data["special_topic"][special_topic_word].add(orig_utter)
+            utterance = ""
+
+    if utterance and opt.no_str_blacklist:
+        global MAX_LEN_STR_BLACKWORD
+        black_word = str_level.de_str_blacklist2(utterance, blacklist["str_blacklist"], MAX_LEN_STR_BLACKWORD)
+        if black_word:
+            dirty_data["str_blacklist"][black_word].add(orig_utter)
+            utterance = ""
+
     if utterance and opt.no_reply_tag:
         utterance = str_level.REPLY_MENTION_REGEX.sub("", utterance).strip()
         if not utterance:
@@ -178,19 +191,6 @@ def utterance_clean(opt, utterance, blacklist, dirty_data, time_dict, cut, retur
         utterance = str_level.remove_emoji(utterance)
         if not utterance:
             dirty_data["emoji"]["emoji"].add(orig_utter)
-
-    if utterance and opt.no_special_topic:
-        special_topic_word = str_level.de_str_blacklist(utterance, blacklist["special_topic"])
-        if special_topic_word:
-            dirty_data["special_topic"][special_topic_word].add(orig_utter)
-            utterance = ""
-
-    if utterance and opt.no_str_blacklist:
-        global MAX_LEN_STR_BLACKWORD
-        black_word = str_level.de_str_blacklist2(utterance, blacklist["str_blacklist"], MAX_LEN_STR_BLACKWORD)
-        if black_word:
-            dirty_data["str_blacklist"][black_word].add(orig_utter)
-            utterance = ""
 
     # clean-text lib
     if utterance and opt.use_cleantext_lib:
