@@ -192,18 +192,6 @@ def utterance_clean(opt, utterance, blacklist, dirty_data, time_dict, cut, retur
             dirty_data["str_blacklist"][black_word].add(orig_utter)
             utterance = ""
 
-    if utterance and opt.no_short:
-        len_flag = str_level.too_short(utterance)
-        if len_flag:
-            dirty_data["other"]["short"].add(orig_utter)
-            utterance = ""
-
-    if utterance and opt.no_long:
-        len_flag = str_level.too_long(utterance)
-        if len_flag:
-            dirty_data["other"]["long"].add(orig_utter)
-            utterance = ""
-
     # clean-text lib
     if utterance and opt.use_cleantext_lib:
         utterance = clean(
@@ -220,6 +208,18 @@ def utterance_clean(opt, utterance, blacklist, dirty_data, time_dict, cut, retur
             replace_with_phone_number="<PHONE>")
         if not utterance:
             dirty_data["other"]["cleantext"].add(orig_utter)
+
+    if utterance and opt.no_short:
+        len_flag = str_level.too_short(utterance)
+        if len_flag:
+            dirty_data["other"]["short"].add(orig_utter)
+            utterance = ""
+
+    if utterance and opt.no_long:
+        len_flag = str_level.too_long(utterance)
+        if len_flag:
+            dirty_data["other"]["long"].add(orig_utter)
+            utterance = ""
 
     if utterance and opt.bert_clean:
         utterance = str_level.bert_clean(utterance)
